@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contador de Visitas</title>
+    <style>
+        body {
+            transition: background-color 0.5s, color 0.5s;
+            text-align: center;
+            padding: 20px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            transition: background-color 0.5s, color 0.5s;
+        }
+    </style>
+</head>
+<body>
+    <h1>Contador de Visitas</h1>
+    <p>Total de visitas: <span id="contadorVisitas">0</span></p>
+    
+    <button id="toggleTema">Mudar Tema</button>
+
+    <script>
+        // Função para atualizar o contador de visitas
+        function atualizarContadorVisitas() {
+            // Verifica se já existe um contador de visitas no armazenamento local
+            let contadorVisitas = localStorage.getItem('contadorVisitas');
+
+            // Se não existir, inicializa com 0
+            contadorVisitas = contadorVisitas ? parseInt(contadorVisitas) + 1 : 1;
+
+            // Atualiza o contador no HTML e no armazenamento local
+            document.getElementById('contadorVisitas').textContent = contadorVisitas;
+            localStorage.setItem('contadorVisitas', contadorVisitas.toString());
+        }
+
+        // Função para alternar entre os temas
+        function alternarTema() {
+            const body = document.body;
+            const temaAtual = localStorage.getItem('tema');
+
+            // Se o tema atual for "dark", alterna para "light", e vice-versa
+            if (temaAtual === 'dark') {
+                body.style.backgroundColor = '#fff';
+                body.style.color = '#000';
+                localStorage.setItem('tema', 'light');
+            } else {
+                body.style.backgroundColor = '#000';
+                body.style.color = '#fff';
+                localStorage.setItem('tema', 'dark');
+            }
+        }
+
+        // Adiciona um ouvinte de evento para a carga da página
+        document.addEventListener('DOMContentLoaded', function() {
+            // Atualiza o contador de visitas ao carregar a página
+            atualizarContadorVisitas();
+
+            // Adiciona um ouvinte de evento para o clique no botão de alternar tema
+            document.getElementById('toggleTema').addEventListener('click', function() {
+                alternarTema();
+            });
+
+            // Define o tema ao carregar a página
+            const temaAtual = localStorage.getItem('tema');
+            if (temaAtual === 'dark') {
+                document.body.style.backgroundColor = '#000';
+                document.body.style.color = '#fff';
+            } else {
+                document.body.style.backgroundColor = '#fff';
+                document.body.style.color = '#000';
+                
+            }
+        });
+    </script>
+</body>
+</html>
